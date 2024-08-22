@@ -1,0 +1,41 @@
+import pandas as pd
+
+# Sample customer feedback data
+data = {
+    'CustomerID': [101, 102, 103, 104, 105],
+    'Feedback': [
+        "The new update is fantastic! I love the new features.",
+        "The app crashes frequently after the last update.",
+        "Great customer service, but the delivery was slow.",
+        "I am very satisfied with the product quality!",
+        "The user interface is confusing and hard to navigate."
+    ]
+}
+
+df = pd.DataFrame(data)
+
+
+Data Preprocessing
+#We'll clean the text data by removing any unnecessary characters, converting text to lowercase, and tokenizing the text.
+
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+# Download NLTK resources
+nltk.download('punkt')
+nltk.download('stopwords')
+
+def preprocess_text(text):
+    # Remove special characters and numbers
+    text = re.sub(r'\W+', ' ', text)
+    # Convert to lowercase
+    text = text.lower()
+    # Tokenize text
+    tokens = word_tokenize(text)
+    # Remove stopwords
+    tokens = [word for word in tokens if word not in stopwords.words('english')]
+    return ' '.join(tokens)
+
+df['Processed_Feedback'] = df['Feedback'].apply(preprocess_text)
